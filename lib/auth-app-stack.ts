@@ -68,7 +68,7 @@ export class AuthAppStack extends cdk.Stack {
   const resource = this.auth.addResource(resourceName);
   const fn = new node.NodejsFunction(this, fnName, {
     ...commonFnProps,
-    entry: `${__dirname}/../lambda/auth/${fnEntry}`,
+    entry: `${__dirname}/../lambdas/auth/${fnEntry}`,
   });
   resource.addMethod(method, new apig.LambdaIntegration(fn));
 }  // end private method
