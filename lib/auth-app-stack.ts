@@ -37,7 +37,15 @@ export class AuthAppStack extends cdk.Stack {
     });
 
     this.auth = authApi.root.addResource("auth");
-  }
+    this.addAuthRoute(
+      "confirm_signup",
+      "POST",
+      "ConfirmFn",
+      "confirm-signup.ts"
+    );
+}
+
+  
   private addAuthRoute(
     resourceName: string,
     method: string,
@@ -57,15 +65,11 @@ export class AuthAppStack extends cdk.Stack {
       REGION: cdk.Aws.REGION
     },
   };
-
   const resource = this.auth.addResource(resourceName);
-
   const fn = new node.NodejsFunction(this, fnName, {
     ...commonFnProps,
-    entry: `${__dirname}/../lambdas/auth/${fnEntry}`,
+    entry: `${__dirname}/../lambda/auth/${fnEntry}`,
   });
-
   resource.addMethod(method, new apig.LambdaIntegration(fn));
 }  // end private method
 }
-
